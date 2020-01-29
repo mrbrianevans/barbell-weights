@@ -1,6 +1,15 @@
 import itertools
 
 weights = [2, 5, 25]  # you can change the set of weights available
+qty_of_weights = [40, 15, 5]  # this is a list of the quantity available of each weight
+
+
+def restricted_combinations(total_weight):
+    """Calculates the different combination of weights on a barbel to reach a target weight"""
+    max_of_each_weight = [
+        [*range(0, min(total_weight // weights[i] // 2 * 2, qty_of_weights[i]) + 1, 2)] for i in
+        range(len(weights))]
+    return [comb for comb in itertools.product(*max_of_each_weight) if attempt(comb, total_weight)]
 
 
 def unrestricted_combinations(total_weight):
@@ -48,9 +57,8 @@ def print_solutions(solutions):
 
 
 if __name__ == "__main__":
-
     target = 130  # try adjusting this number
 
-    test_solutions = unrestricted_combinations(target)
+    test_solutions = restricted_combinations(target)
     print_solutions(test_solutions)
     test_answers(test_solutions, target)
